@@ -24,11 +24,11 @@ public class Payment {
     private User user;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchase_order_id", unique = true, foreignKey = @ForeignKey(name = "fk_payments_purchase_orders"))
+    @JoinColumn(name = "purchase_order_id", foreignKey = @ForeignKey(name = "fk_payments_purchase_orders"))
     private PurchaseOrder purchaseOrder;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rental_order_id", unique = true, foreignKey = @ForeignKey(name = "fk_payments_rental_orders"))
+    @JoinColumn(name = "rental_order_id", foreignKey = @ForeignKey(name = "fk_payments_rental_orders"))
     private RentalOrder rentalOrder;
 
     @Column(name = "amount", nullable = false, precision = 18, scale = 2)
@@ -59,24 +59,83 @@ public class Payment {
     public Payment() {
     }
 
-    public UUID getId() { return id; }
-    public void setId(UUID id) { this.id = id; }
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-    public PurchaseOrder getPurchaseOrder() { return purchaseOrder; }
-    public void setPurchaseOrder(PurchaseOrder purchaseOrder) { this.purchaseOrder = purchaseOrder; }
-    public RentalOrder getRentalOrder() { return rentalOrder; }
-    public void setRentalOrder(RentalOrder rentalOrder) { this.rentalOrder = rentalOrder; }
-    public BigDecimal getAmount() { return amount; }
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
-    public PaymentMethod getPaymentMethod() { return paymentMethod; }
-    public void setPaymentMethod(PaymentMethod paymentMethod) { this.paymentMethod = paymentMethod; }
-    public PaymentStatus getPaymentStatus() { return paymentStatus; }
-    public void setPaymentStatus(PaymentStatus paymentStatus) { this.paymentStatus = paymentStatus; }
-    public String getProviderReference() { return providerReference; }
-    public void setProviderReference(String providerReference) { this.providerReference = providerReference; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
-    public LocalDateTime getPaidAt() { return paidAt; }
-    public void setPaidAt(LocalDateTime paidAt) { this.paidAt = paidAt; }
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public PurchaseOrder getPurchaseOrder() {
+        return purchaseOrder;
+    }
+
+    public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+        this.purchaseOrder = purchaseOrder;
+    }
+
+    public RentalOrder getRentalOrder() {
+        return rentalOrder;
+    }
+
+    public void setRentalOrder(RentalOrder rentalOrder) {
+        this.rentalOrder = rentalOrder;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public String getProviderReference() {
+        return providerReference;
+    }
+
+    public void setProviderReference(String providerReference) {
+        this.providerReference = providerReference;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getPaidAt() {
+        return paidAt;
+    }
+
+    public void setPaidAt(LocalDateTime paidAt) {
+        this.paidAt = paidAt;
+    }
 }
