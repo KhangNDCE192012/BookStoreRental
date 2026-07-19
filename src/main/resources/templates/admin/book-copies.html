@@ -1,1 +1,69 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/common :: head('Kho sách vật lý')}"></head><body><nav th:replace="~{fragments/common :: navbar}"></nav><div th:replace="~{fragments/common :: messages}"></div><div class="container-fluid"><div class="row"><aside class="col-md-2 p-0"><div th:replace="~{fragments/admin-sidebar :: sidebar}"></div></aside><main class="col-md-10 p-4"><h1 th:text="${'Kho vật lý - ' + book.title}"></h1><form class="form-section row g-2" th:action="@{/admin/book-copies/save}" th:object="${bookCopyForm}" method="post"><input type="hidden" th:field="*{bookId}"><div class="col-md-3"><input class="form-control" th:field="*{copyCode}" placeholder="Mã cuốn, VD: BK001-C01"></div><div class="col-md-2"><select class="form-select" th:field="*{condition}"><option th:each="c:${conditions}" th:value="${c}" th:text="${c}"></option></select></div><div class="col-md-2"><select class="form-select" th:field="*{status}"><option th:each="s:${copyStatuses}" th:value="${s}" th:text="${s}"></option></select></div><div class="col-md-3"><input class="form-control" th:field="*{shelfLocation}" placeholder="Vị trí kệ"></div><div class="col-md-2"><button class="btn btn-brand w-100">Thêm cuốn</button></div></form><table class="table mt-3"><thead><tr><th>Mã cuốn</th><th>Tình trạng</th><th>Trạng thái</th><th>Vị trí kệ</th><th>Cập nhật</th></tr></thead><tbody><tr th:each="c:${copies}"><td th:text="${c.copyCode}"></td><td th:text="${c.condition}"></td><td th:text="${c.status}"></td><td th:text="${c.shelfLocation}"></td><td><form class="d-flex gap-1" th:action="@{/admin/book-copies/save}" method="post"><input type="hidden" name="id" th:value="${c.id}"><input type="hidden" name="bookId" th:value="${book.id}"><input class="form-control form-control-sm" name="copyCode" th:value="${c.copyCode}"><select class="form-select form-select-sm" name="condition"><option th:each="v:${conditions}" th:value="${v}" th:selected="${v==c.condition}" th:text="${v}"></option></select><select class="form-select form-select-sm" name="status"><option th:each="v:${copyStatuses}" th:value="${v}" th:selected="${v==c.status}" th:text="${v}"></option></select><input class="form-control form-control-sm" name="shelfLocation" th:value="${c.shelfLocation}"><button class="btn btn-sm btn-outline-dark">Lưu</button></form></td></tr></tbody></table></main></div></div><footer th:replace="~{fragments/common :: footer}"></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Kho sách vật lý')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: messages}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <aside class="col-md-2 p-0">
+            <div th:replace="~{fragments/admin-sidebar :: sidebar}"></div>
+        </aside>
+        <main class="col-md-10 p-4"><h1 th:text="${'Kho vật lý - ' + book.title}"></h1>
+            <form class="form-section row g-2" th:action="@{/admin/book-copies/save}" th:object="${bookCopyForm}"
+                  method="post"><input type="hidden" th:field="*{bookId}">
+                <div class="col-md-3"><input class="form-control" th:field="*{copyCode}"
+                                             placeholder="Mã cuốn, VD: BK001-C01"></div>
+                <div class="col-md-2"><select class="form-select" th:field="*{condition}">
+                    <option th:each="c:${conditions}" th:value="${c}" th:text="${c}"></option>
+                </select></div>
+                <div class="col-md-2"><select class="form-select" th:field="*{status}">
+                    <option th:each="s:${copyStatuses}" th:value="${s}" th:text="${s}"></option>
+                </select></div>
+                <div class="col-md-3"><input class="form-control" th:field="*{shelfLocation}" placeholder="Vị trí kệ">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-brand w-100">Thêm cuốn</button>
+                </div>
+            </form>
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>Mã cuốn</th>
+                    <th>Tình trạng</th>
+                    <th>Trạng thái</th>
+                    <th>Vị trí kệ</th>
+                    <th>Cập nhật</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="c:${copies}">
+                    <td th:text="${c.copyCode}"></td>
+                    <td th:text="${c.condition}"></td>
+                    <td th:text="${c.status}"></td>
+                    <td th:text="${c.shelfLocation}"></td>
+                    <td>
+                        <form class="d-flex gap-1" th:action="@{/admin/book-copies/save}" method="post"><input
+                                type="hidden" name="id" th:value="${c.id}"><input type="hidden" name="bookId"
+                                                                                  th:value="${book.id}"><input
+                                class="form-control form-control-sm" name="copyCode" th:value="${c.copyCode}"><select
+                                class="form-select form-select-sm" name="condition">
+                            <option th:each="v:${conditions}" th:value="${v}" th:selected="${v==c.condition}"
+                                    th:text="${v}"></option>
+                        </select><select class="form-select form-select-sm" name="status">
+                            <option th:each="v:${copyStatuses}" th:value="${v}" th:selected="${v==c.status}"
+                                    th:text="${v}"></option>
+                        </select><input class="form-control form-control-sm" name="shelfLocation"
+                                        th:value="${c.shelfLocation}">
+                            <button class="btn btn-sm btn-outline-dark">Lưu</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+</div>
+<footer th:replace="~{fragments/common :: footer}"></footer>
+</body>
+</html>

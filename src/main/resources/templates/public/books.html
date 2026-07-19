@@ -1,13 +1,109 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/common :: head('Danh sách sách')}"></head><body>
-<nav th:replace="~{fragments/common :: navbar}"></nav><div th:replace="~{fragments/common :: messages}"></div>
-<main class="container py-4"><h1>Danh sách sách</h1>
-<form class="row g-2 form-section my-3" method="get" th:action="@{/books}">
-<div class="col-md-3"><input class="form-control" name="keyword" th:value="${keyword}" placeholder="Tên, ISBN, tác giả"></div>
-<div class="col-md-2"><select class="form-select" name="categoryId"><option value="">Tất cả thể loại</option><option th:each="c:${categories}" th:value="${c.id}" th:selected="${categoryId == c.id}" th:text="${c.name}"></option></select></div>
-<div class="col-md-2"><input class="form-control" name="author" th:value="${author}" placeholder="Tác giả"></div>
-<div class="col-md-2"><input type="number" min="0" class="form-control" name="minPrice" th:value="${minPrice}" placeholder="Giá từ"></div>
-<div class="col-md-2"><input type="number" min="0" class="form-control" name="maxPrice" th:value="${maxPrice}" placeholder="Giá đến"></div>
-<div class="col-md-1"><button class="btn btn-brand w-100">Lọc</button></div></form>
-<div class="row g-4"><div class="col-6 col-md-4 col-lg-3" th:each="book:${books}"><div class="card card-book"><img class="card-img-top book-cover" th:src="${book.coverImage != null ? book.coverImage : '/img/book-placeholder.svg'}"><div class="card-body"><h5 th:text="${book.title}"></h5><p class="text-muted" th:text="${book.author}"></p><p class="price" th:text="${#numbers.formatDecimal(book.purchasePrice,0,'COMMA',0,'POINT')}+' đ'"></p><a class="stretched-link" th:href="@{/books/{id}(id=${book.id})}"></a></div></div></div></div>
-<nav class="mt-4" th:if="${page.totalPages > 1}"><ul class="pagination"><li class="page-item" th:each="i:${#numbers.sequence(0,page.totalPages-1)}" th:classappend="${i==page.number}?'active'"><a class="page-link" th:href="@{/books(page=${i},keyword=${keyword},categoryId=${categoryId},author=${author},minPrice=${minPrice},maxPrice=${maxPrice})}" th:text="${i+1}"></a></li></ul></nav>
-</main><footer th:replace="~{fragments/common :: footer}"></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Danh sách sách')}"></head>
+
+<body>
+
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: messages}"></div>
+
+<main class="container py-4">
+
+    <h1>Danh sách sách</h1>
+
+    <form class="row g-2 form-section my-3" method="get" th:action="@{/books}">
+
+        <div class="col-md-4">
+            <input class="form-control"
+                   name="keyword"
+                   th:value="${keyword}"
+                   placeholder="Tên, ISBN, tác giả">
+        </div>
+
+        <div class="col-md-3">
+            <select class="form-select" name="categoryId">
+                <option value="">Tất cả thể loại</option>
+                <option th:each="c : ${categories}"
+                        th:value="${c.id}"
+                        th:selected="${categoryId == c.id}"
+                        th:text="${c.name}">
+                </option>
+            </select>
+        </div>
+
+        <div class="col-md-3">
+            <input class="form-control"
+                   name="author"
+                   th:value="${author}"
+                   placeholder="Tác giả">
+        </div>
+
+        <div class="col-md-2">
+            <button class="btn btn-brand w-100">
+                Lọc
+            </button>
+        </div>
+
+    </form>
+
+    <div class="row g-4">
+
+        <div class="col-6 col-md-4 col-lg-3" th:each="book : ${books}">
+
+            <div class="card card-book">
+
+                <img class="card-img-top book-cover"
+                     th:src="${book.title == 'Nhà Giả Kim' ? '/img/nha_gia_kim.jpg' :
+                              book.title == 'Khởi Nghiệp Tinh Gọn' ? '/img/Khoi-nghiep-tinh-gon.jpg' :
+                              book.title == 'Dế Mèn Phiêu Lưu Ký' ? '/img/demen.jpg' :
+                              book.title == 'Clean Code' ? '/img/Clean_code.jpg' :
+                              book.coverImage}">
+
+                <div class="card-body">
+
+                    <h5 th:text="${book.title}"></h5>
+
+                    <p class="text-muted" th:text="${book.author}"></p>
+
+                    <p class="price"
+                       th:text="${#numbers.formatDecimal(book.purchasePrice,0,'COMMA',0,'POINT')} + ' đ'">
+                    </p>
+
+                    <a class="stretched-link"
+                       th:href="@{/books/{id}(id=${book.id})}">
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <nav class="mt-4" th:if="${page.totalPages > 1}">
+        <ul class="pagination">
+
+            <li class="page-item"
+                th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                th:classappend="${i == page.number} ? 'active'">
+
+                <a class="page-link"
+                   th:href="@{/books(page=${i},
+                                    keyword=${keyword},
+                                    categoryId=${categoryId},
+                                    author=${author})}"
+                   th:text="${i + 1}">
+                </a>
+
+            </li>
+
+        </ul>
+    </nav>
+
+</main>
+
+<footer th:replace="~{fragments/common :: footer}"></footer>
+
+</body>
+</html>
