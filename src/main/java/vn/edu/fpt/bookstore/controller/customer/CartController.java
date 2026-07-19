@@ -10,6 +10,7 @@ import vn.edu.fpt.bookstore.service.CartService;
 import vn.edu.fpt.bookstore.service.CurrentUserService;
 import vn.edu.fpt.bookstore.service.UserService;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Controller
@@ -28,9 +29,17 @@ public class CartController {
     @GetMapping
     public String cart(Model model) {
         User user = currentUserService.requireCurrentUser();
+        BigDecimal purchaseSubtotal = cartService.purchaseSubtotal(user);
+        BigDecimal rentalSubtotal = cartService.rentalSubtotal(user);
+        BigDecimal rentalDepositTotal = cartService.rentalDepositTotal(user);
         model.addAttribute("cart", cartService.getOrCreate(user));
-        model.addAttribute("purchaseSubtotal", cartService.purchaseSubtotal(user));
-        model.addAttribute("rentalSubtotal", cartService.rentalSubtotal(user));
+        model.addAttribute("purchaseSubtotal", purchaseSubtotal);
+        model.addAttribute("purchaseShippingFee", CartService.PURCHASE_SHIPPING_FEE);
+        model.addAttribute("purchaseTotal", purchaseSubtotal.signum() == 0
+                ? BigDecimal.ZERO : purchaseSubtotal.add(CartService.PURCHASE_SHIPPING_FEE));
+        model.addAttribute("rentalSubtotal", rentalSubtotal);
+        model.addAttribute("rentalDepositTotal", rentalDepositTotal);
+        model.addAttribute("rentalTotal", rentalSubtotal.add(rentalDepositTotal));
         model.addAttribute("addresses", userService.addressesOf(user));
         return "customer/cart";
     }

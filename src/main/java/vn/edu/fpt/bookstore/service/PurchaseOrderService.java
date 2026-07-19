@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.edu.fpt.bookstore.dto.CheckoutForm;
 import vn.edu.fpt.bookstore.entity.*;
 import vn.edu.fpt.bookstore.entity.enums.*;
-import vn.edu.fpt.bookstore.repository.*;
+import vn.edu.fpt.bookstore.repository.BookCopyRepository;
+import vn.edu.fpt.bookstore.repository.PaymentRepository;
+import vn.edu.fpt.bookstore.repository.PurchaseOrderRepository;
 import vn.edu.fpt.bookstore.successfullyDat.MoneyUtils;
 import vn.edu.fpt.bookstore.successfullyDat.OrderCodeGenerator;
 
@@ -17,7 +19,7 @@ import java.util.UUID;
 
 @Service
 public class PurchaseOrderService {
-    private static final BigDecimal SHIPPING_FEE = BigDecimal.valueOf(30000);
+    private static final BigDecimal SHIPPING_FEE = CartService.PURCHASE_SHIPPING_FEE;
 
     private final PurchaseOrderRepository orderRepository;
     private final BookCopyRepository bookCopyRepository;

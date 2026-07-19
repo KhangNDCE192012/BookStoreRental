@@ -14,6 +14,7 @@ import vn.edu.fpt.bookstore.dto.ReturnProcessForm;
 import vn.edu.fpt.bookstore.entity.User;
 import vn.edu.fpt.bookstore.service.*;
 
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -101,8 +102,16 @@ public class StaffDashboardController {
             redirectAttributes.addFlashAttribute("error", "Dữ liệu trả sách không hợp lệ");
             return "redirect:/staff/rentals/" + orderId;
         }
-        return run(() -> rentalOrderService.processReturn(currentUserService.requireCurrentUser(), detailId, returnProcessForm),
-                "Đã ghi nhận trả sách", "/staff/rentals/" + orderId, redirectAttributes);
+        try {
+            BigDecimal depositRefund = rentalOrderService.processReturn(
+                    currentUserService.requireCurrentUser(), detailId, returnProcessForm);
+            redirectAttributes.addFlashAttribute("success",
+                    "Đã ghi nhận trả sách và hoàn " + depositRefund.toPlainString()
+                            + " đ tiền cọc vào ví khách hàng");
+        } catch (RuntimeException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+        return "redirect:/staff/rentals/" + orderId;
     }
 
     @PostMapping("/extensions/{id}/process")

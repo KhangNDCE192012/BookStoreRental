@@ -18,6 +18,8 @@ import java.util.UUID;
 
 @Service
 public class CartService {
+    public static final BigDecimal PURCHASE_SHIPPING_FEE = BigDecimal.valueOf(30000);
+
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final BookService bookService;
@@ -114,6 +116,14 @@ public class CartService {
         return itemsByType(user, CartItemType.RENTAL).stream()
                 .map(item -> item.getBook().getRentalPricePerDay()
                         .multiply(BigDecimal.valueOf(item.getRentalDays()))
+                        .multiply(BigDecimal.valueOf(item.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    @Transactional(readOnly = true)
+    public BigDecimal rentalDepositTotal(User user) {
+        return itemsByType(user, CartItemType.RENTAL).stream()
+                .map(item -> item.getBook().getRentalDeposit()
                         .multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }

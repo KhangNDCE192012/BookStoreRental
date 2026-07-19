@@ -43,9 +43,10 @@
             </tbody>
         </table>
     </div>
-    <p class="fw-bold">Tạm tính: <span
-            th:text="${#numbers.formatDecimal(purchaseSubtotal,0,'COMMA',0,'POINT')}+' đ'"></span> + 30.000 đ phí giao
-    </p>
+    <p>Tạm tính: <span th:text="${#numbers.formatDecimal(purchaseSubtotal,0,'COMMA',0,'POINT')}+' đ'"></span> | Phí
+        giao: <span th:text="${#numbers.formatDecimal(purchaseShippingFee,0,'COMMA',0,'POINT')}+' đ'"></span></p>
+    <p class="fw-bold">Tổng thanh toán: <span
+            th:text="${#numbers.formatDecimal(purchaseTotal,0,'COMMA',0,'POINT')}+' đ'"></span></p>
     <form class="form-section" th:action="@{/customer/purchases/checkout}" method="post">
         <div class="row g-2">
             <div class="col-md-6"><select class="form-select" name="addressId" required>
@@ -97,8 +98,11 @@
             </tbody>
         </table>
     </div>
-    <p class="fw-bold">Phí thuê tạm tính: <span
-            th:text="${#numbers.formatDecimal(rentalSubtotal,0,'COMMA',0,'POINT')}+' đ'"></span> (chưa gồm tiền cọc)</p>
+    <p>Phí thuê: <span th:text="${#numbers.formatDecimal(rentalSubtotal,0,'COMMA',0,'POINT')}+' đ'"></span> | Tiền cọc:
+        <span th:text="${#numbers.formatDecimal(rentalDepositTotal,0,'COMMA',0,'POINT')}+' đ'"></span></p>
+    <p class="fw-bold">Tổng trừ ví: <span
+            th:text="${#numbers.formatDecimal(rentalTotal,0,'COMMA',0,'POINT')}+' đ'"></span> <small class="text-muted">(tiền
+        cọc sẽ được hoàn sau khi trả sách, trừ phí phạt nếu có)</small></p>
     <form class="form-section" th:action="@{/customer/rentals/checkout}" method="post">
         <div class="row g-2">
             <div class="col-md-6"><select class="form-select" name="addressId" required>

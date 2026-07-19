@@ -283,7 +283,7 @@ public class RentalOrderService {
     }
 
     @Transactional
-    public void processReturn(User staff, UUID detailId, ReturnProcessForm form) {
+    public BigDecimal processReturn(User staff, UUID detailId, ReturnProcessForm form) {
         RentalOrderDetail detail = detailRepository.findById(detailId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy chi tiết thuê"));
         RentalOrder order = requireById(detail.getRentalOrder().getId());
@@ -365,6 +365,7 @@ public class RentalOrderService {
             rentalOrderRepository.save(order);
         }
         activityLogService.log(staff, "PROCESS_BOOK_RETURN", "RentalOrderDetail", detail.getId().toString(), form.getConditionAfter().name());
+        return MoneyUtils.normalize(depositRefund);
     }
 
     @Scheduled(cron = "0 0 * * * *")
