@@ -1,0 +1,21 @@
+digraph ClassDiagram {
+  graph [rankdir=LR, bgcolor="white", pad=0.3, nodesep=0.6, ranksep=0.9, label="Core Class Diagram", labelloc=t, fontsize=20, fontname="DejaVu Sans"];
+  node [shape=record, fontname="DejaVu Sans", fontsize=9, style=filled, fillcolor="white"];
+  edge [fontname="DejaVu Sans", fontsize=8, color="#475569"];
+
+  controller [label="{Controllers|PublicController\lAuthController\lCustomer Controllers\lStaffDashboardController\lAdmin Controllers\l}", fillcolor="#dbeafe"];
+  service [label="{Services|AuthService\lBookService\lCartService\lPurchaseOrderService\lRentalOrderService\lWalletService\lVoucherService\lUserService\lRevenueService\l}", fillcolor="#dcfce7"];
+  repository [label="{Repositories|JpaRepository interfaces\lPessimistic-lock queries\lEntityGraph detail queries\l}", fillcolor="#fef3c7"];
+  entity [label="{Entities|User, Role, Address, Wallet\lBook, BookCopy, Category\lPurchaseOrder + Detail\lRentalOrder + Detail\lVoucher, Payment, Logs\l}", fillcolor="#fee2e2"];
+  config [label="{Configuration|SecurityConfig\lWebConfig\lBCryptPasswordEncoder\l}", fillcolor="#ede9fe"];
+  view [label="{Thymeleaf Views|public/\lauth/\lcustomer/\lstaff/\ladmin/\lfragments/\l}", fillcolor="#cffafe"];
+  db [shape=cylinder, label="SQL Server\nBookStoreRentalDB", fillcolor="#f3f4f6"];
+
+  controller -> service [label="calls"];
+  service -> repository [label="uses"];
+  repository -> entity [label="maps"];
+  repository -> db [label="JPA / SQL"];
+  controller -> view [label="Model + view"];
+  config -> controller [label="URL authorization"];
+  config -> service [label="authentication"];
+}

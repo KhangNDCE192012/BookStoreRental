@@ -1,0 +1,15 @@
+digraph ReturnSequence {
+ graph [rankdir=TB, bgcolor="white", pad=0.25, nodesep=0.25, ranksep=0.35, label="Sequence - Return Book and Deposit Settlement", labelloc=t, fontsize=18, fontname="DejaVu Sans"];
+ node [shape=box, style="rounded,filled", fillcolor="white", fontname="DejaVu Sans", fontsize=9];
+ edge [fontname="DejaVu Sans", fontsize=8, color="#374151"];
+ start [shape=ellipse, fillcolor="#dbeafe", label="Customer requests return"];
+ inspect [shape=ellipse, fillcolor="#fef3c7", label="Staff inspects physical copy"];
+ calc [label="Calculate late days / late fee\nDamage or lost fee"];
+ state [label="Update BookCopy\nAVAILABLE / DAMAGED / LOST"];
+ settle [label="penalties = late + damage + lost\nrefund = max(deposit - penalties, 0)"];
+ charge [label="Debit extra charge if penalties > deposit"];
+ refund [label="Credit deposit refund"];
+ record [label="Save BookReturnRecord\nUpdate detail and order"];
+ done [shape=ellipse, fillcolor="#dcfce7", label="RETURNED or LOST"];
+ start -> inspect -> calc -> state -> settle -> charge -> refund -> record -> done;
+}

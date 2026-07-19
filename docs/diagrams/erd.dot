@@ -1,0 +1,61 @@
+digraph ERD {
+  graph [rankdir=LR, splines=ortho, nodesep=0.55, ranksep=0.9, bgcolor="white", pad=0.3, label="Book Store & Rental Management System - ERD", labelloc=t, fontsize=20, fontname="DejaVu Sans"];
+  node [shape=plain, fontname="DejaVu Sans"];
+  edge [color="#606060", arrowsize=0.7, penwidth=1.1];
+
+  roles [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#dbeafe"><B>roles</B></TD></TR><TR><TD ALIGN="LEFT">PK role_id</TD></TR><TR><TD ALIGN="LEFT">name</TD></TR></TABLE>>];
+  users [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#dbeafe"><B>users</B></TD></TR><TR><TD ALIGN="LEFT">PK user_id</TD></TR><TR><TD ALIGN="LEFT">FK role_id</TD></TR><TR><TD ALIGN="LEFT">username, email</TD></TR><TR><TD ALIGN="LEFT">password_hash, status</TD></TR></TABLE>>];
+  staff [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#dbeafe"><B>staff</B></TD></TR><TR><TD ALIGN="LEFT">PK staff_id</TD></TR><TR><TD ALIGN="LEFT">FK user_id</TD></TR><TR><TD ALIGN="LEFT">employee_code</TD></TR></TABLE>>];
+  addresses [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#dbeafe"><B>addresses</B></TD></TR><TR><TD ALIGN="LEFT">PK address_id</TD></TR><TR><TD ALIGN="LEFT">FK user_id</TD></TR><TR><TD ALIGN="LEFT">province, district, ward</TD></TR></TABLE>>];
+
+  categories [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#dcfce7"><B>categories</B></TD></TR><TR><TD ALIGN="LEFT">PK category_id</TD></TR><TR><TD ALIGN="LEFT">name, status</TD></TR></TABLE>>];
+  books [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#dcfce7"><B>books</B></TD></TR><TR><TD ALIGN="LEFT">PK book_id</TD></TR><TR><TD ALIGN="LEFT">FK category_id</TD></TR><TR><TD ALIGN="LEFT">isbn, title, author</TD></TR><TR><TD ALIGN="LEFT">purchase/rental/deposit price</TD></TR></TABLE>>];
+  copies [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#dcfce7"><B>book_copies</B></TD></TR><TR><TD ALIGN="LEFT">PK book_copy_id</TD></TR><TR><TD ALIGN="LEFT">FK book_id</TD></TR><TR><TD ALIGN="LEFT">copy_code</TD></TR><TR><TD ALIGN="LEFT">condition, status, shelf</TD></TR></TABLE>>];
+
+  carts [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#fef3c7"><B>carts</B></TD></TR><TR><TD ALIGN="LEFT">PK cart_id</TD></TR><TR><TD ALIGN="LEFT">FK user_id</TD></TR></TABLE>>];
+  cartitems [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#fef3c7"><B>cart_items</B></TD></TR><TR><TD ALIGN="LEFT">PK cart_item_id</TD></TR><TR><TD ALIGN="LEFT">FK cart_id, book_id</TD></TR><TR><TD ALIGN="LEFT">type, quantity, rental_days</TD></TR></TABLE>>];
+
+  purchase [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#fee2e2"><B>purchase_orders</B></TD></TR><TR><TD ALIGN="LEFT">PK purchase_order_id</TD></TR><TR><TD ALIGN="LEFT">FK user/voucher/processed_by</TD></TR><TR><TD ALIGN="LEFT">amounts, payment/order status</TD></TR></TABLE>>];
+  purchasedetail [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#fee2e2"><B>purchase_order_details</B></TD></TR><TR><TD ALIGN="LEFT">PK detail_id</TD></TR><TR><TD ALIGN="LEFT">FK order/book/book_copy</TD></TR><TR><TD ALIGN="LEFT">unit_price</TD></TR></TABLE>>];
+
+  rental [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#ede9fe"><B>rental_orders</B></TD></TR><TR><TD ALIGN="LEFT">PK rental_order_id</TD></TR><TR><TD ALIGN="LEFT">FK user/voucher/processed_by</TD></TR><TR><TD ALIGN="LEFT">dates, deposit, fees, status</TD></TR></TABLE>>];
+  rentaldetail [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#ede9fe"><B>rental_order_details</B></TD></TR><TR><TD ALIGN="LEFT">PK detail_id</TD></TR><TR><TD ALIGN="LEFT">FK rental/book/book_copy</TD></TR><TR><TD ALIGN="LEFT">due/return dates, fees</TD></TR></TABLE>>];
+  extensions [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#ede9fe"><B>book_extension_requests</B></TD></TR><TR><TD ALIGN="LEFT">PK extension_request_id</TD></TR><TR><TD ALIGN="LEFT">FK rental_detail/processed_by</TD></TR><TR><TD ALIGN="LEFT">extra_days, extra_fee, status</TD></TR></TABLE>>];
+  returns [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#ede9fe"><B>book_return_records</B></TD></TR><TR><TD ALIGN="LEFT">PK return_record_id</TD></TR><TR><TD ALIGN="LEFT">FK rental_detail/processed_by</TD></TR><TR><TD ALIGN="LEFT">condition, late/damage/lost fees</TD></TR></TABLE>>];
+
+  vouchers [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#fae8ff"><B>vouchers</B></TD></TR><TR><TD ALIGN="LEFT">PK voucher_id</TD></TR><TR><TD ALIGN="LEFT">FK created_by</TD></TR><TR><TD ALIGN="LEFT">code, type, limits, dates</TD></TR></TABLE>>];
+  uservouchers [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#fae8ff"><B>user_vouchers</B></TD></TR><TR><TD ALIGN="LEFT">PK user_voucher_id</TD></TR><TR><TD ALIGN="LEFT">FK user_id, voucher_id</TD></TR><TR><TD ALIGN="LEFT">usage_count</TD></TR></TABLE>>];
+  wallets [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#cffafe"><B>wallets</B></TD></TR><TR><TD ALIGN="LEFT">PK wallet_id</TD></TR><TR><TD ALIGN="LEFT">FK user_id</TD></TR><TR><TD ALIGN="LEFT">balance, version</TD></TR></TABLE>>];
+  transactions [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#cffafe"><B>wallet_transactions</B></TD></TR><TR><TD ALIGN="LEFT">PK transaction_id</TD></TR><TR><TD ALIGN="LEFT">FK wallet_id</TD></TR><TR><TD ALIGN="LEFT">type, amount, reference</TD></TR></TABLE>>];
+  payments [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#cffafe"><B>payments</B></TD></TR><TR><TD ALIGN="LEFT">PK payment_id</TD></TR><TR><TD ALIGN="LEFT">FK user/order</TD></TR><TR><TD ALIGN="LEFT">amount, method, status</TD></TR></TABLE>>];
+  logs [label=<<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0"><TR><TD BGCOLOR="#f3f4f6"><B>activity_logs</B></TD></TR><TR><TD ALIGN="LEFT">PK activity_log_id</TD></TR><TR><TD ALIGN="LEFT">FK actor_id</TD></TR><TR><TD ALIGN="LEFT">action, entity, details</TD></TR></TABLE>>];
+
+  roles -> users [label="1:N"];
+  users -> staff [label="1:0..1"];
+  users -> addresses [label="1:N"];
+  categories -> books [label="1:N"];
+  books -> copies [label="1:N"];
+  users -> carts [label="1:1"];
+  carts -> cartitems [label="1:N"];
+  books -> cartitems [label="1:N"];
+  users -> purchase [label="1:N"];
+  purchase -> purchasedetail [label="1:N"];
+  books -> purchasedetail [label="1:N"];
+  copies -> purchasedetail [label="1:0..1"];
+  users -> rental [label="1:N"];
+  rental -> rentaldetail [label="1:N"];
+  books -> rentaldetail [label="1:N"];
+  copies -> rentaldetail [label="1:N history"];
+  rentaldetail -> extensions [label="1:N"];
+  rentaldetail -> returns [label="1:0..1"];
+  vouchers -> purchase [label="1:N"];
+  vouchers -> rental [label="1:N"];
+  users -> uservouchers [label="1:N"];
+  vouchers -> uservouchers [label="1:N"];
+  users -> wallets [label="1:1"];
+  wallets -> transactions [label="1:N"];
+  users -> payments [label="1:N"];
+  purchase -> payments [label="1:0..1"];
+  rental -> payments [label="1:0..1"];
+  users -> logs [label="1:N"];
+}

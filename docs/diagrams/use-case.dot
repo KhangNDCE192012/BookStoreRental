@@ -1,0 +1,57 @@
+digraph UseCase {
+  graph [rankdir=LR, bgcolor="white", pad=0.3, nodesep=0.35, ranksep=1.1, label="Book Store & Rental - Use Case Diagram", labelloc=t, fontsize=20, fontname="DejaVu Sans"];
+  node [fontname="DejaVu Sans"];
+  edge [fontname="DejaVu Sans", fontsize=9, color="#4b5563"];
+
+  guest [shape=box, style="rounded,filled", fillcolor="#f3f4f6", label="Guest"];
+  customer [shape=box, style="rounded,filled", fillcolor="#dbeafe", label="Customer"];
+  staff [shape=box, style="rounded,filled", fillcolor="#dcfce7", label="Staff"];
+  admin [shape=box, style="rounded,filled", fillcolor="#fee2e2", label="Admin"];
+
+  subgraph cluster_system {
+    label="Book Store & Rental Management System";
+    color="#94a3b8";
+    style="rounded";
+    node [shape=ellipse, style=filled, fillcolor="white"];
+    browse [label="Xem / tìm kiếm / lọc sách"];
+    auth [label="Đăng ký, đăng nhập, quên mật khẩu"];
+    profile [label="Hồ sơ, địa chỉ, đổi mật khẩu"];
+    cart [label="Quản lý giỏ mua / thuê"];
+    purchase [label="Thanh toán và quản lý đơn mua"];
+    rental [label="Thuê sách và theo dõi hạn trả"];
+    extension [label="Yêu cầu gia hạn"];
+    returnreq [label="Yêu cầu trả sách"];
+    wallet [label="Ví và lịch sử giao dịch"];
+    stafforders [label="Xác nhận / từ chối đơn mua"];
+    staffrental [label="Giao, trả, gia hạn, phí trễ/hư/mất"];
+    inventory [label="Quản lý trạng thái BookCopy"];
+    revenue [label="Thống kê và xuất doanh thu"];
+    users [label="Quản lý khách hàng / nhân viên"];
+    catalog [label="Quản lý thể loại, Book, BookCopy"];
+    voucher [label="Quản lý voucher"];
+    audit [label="Xem nhật ký hoạt động"];
+  }
+
+  guest -> browse;
+  guest -> auth;
+  customer -> browse;
+  customer -> profile;
+  customer -> cart;
+  customer -> purchase;
+  customer -> rental;
+  customer -> extension;
+  customer -> returnreq;
+  customer -> wallet;
+  staff -> stafforders;
+  staff -> staffrental;
+  staff -> inventory;
+  staff -> revenue;
+  admin -> users;
+  admin -> catalog;
+  admin -> voucher;
+  admin -> stafforders;
+  admin -> staffrental;
+  admin -> inventory;
+  admin -> revenue;
+  admin -> audit;
+}

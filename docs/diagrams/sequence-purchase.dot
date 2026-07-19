@@ -1,0 +1,19 @@
+digraph PurchaseSequence {
+ graph [rankdir=TB, bgcolor="white", pad=0.25, nodesep=0.25, ranksep=0.35, label="Sequence - Checkout Purchase Order", labelloc=t, fontsize=18, fontname="DejaVu Sans"];
+ node [shape=box, style="rounded,filled", fillcolor="white", fontname="DejaVu Sans", fontsize=9];
+ edge [fontname="DejaVu Sans", fontsize=8, color="#374151"];
+ start [shape=ellipse, fillcolor="#dbeafe", label="Customer submits checkout"];
+ c [label="PurchaseOrderController"];
+ s [label="PurchaseOrderService.checkout()"];
+ a [label="UserService.requireAddress()"];
+ v [label="VoucherService.consume()\n(lock voucher)"];
+ b [label="BookCopyRepository\nPESSIMISTIC_WRITE"];
+ w [label="WalletService.debit()\n(lock wallet)"];
+ o [label="Save PurchaseOrder + Details"];
+ p [label="Save Payment SUCCESS"];
+ clear [label="Clear purchase cart"];
+ done [shape=ellipse, fillcolor="#dcfce7", label="Commit transaction / show order"];
+ rollback [shape=ellipse, fillcolor="#fee2e2", label="Any error -> rollback\nNo money or copy status change"];
+ start -> c -> s -> a -> v -> b -> o -> w -> p -> clear -> done;
+ s -> rollback [style=dashed, label="validation / stock / balance failure"];
+}

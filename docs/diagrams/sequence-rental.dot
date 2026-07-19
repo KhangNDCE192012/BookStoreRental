@@ -1,0 +1,15 @@
+digraph RentalSequence {
+ graph [rankdir=TB, bgcolor="white", pad=0.25, nodesep=0.25, ranksep=0.35, label="Sequence - Rental Checkout and Staff Approval", labelloc=t, fontsize=18, fontname="DejaVu Sans"];
+ node [shape=box, style="rounded,filled", fillcolor="white", fontname="DejaVu Sans", fontsize=9];
+ edge [fontname="DejaVu Sans", fontsize=8, color="#374151"];
+ start [shape=ellipse, fillcolor="#dbeafe", label="Customer checks out rental cart"];
+ calc [label="Calculate rental fee + deposit\nApply voucher to rental fee"];
+ reserve [label="Lock AVAILABLE BookCopy\nSet RESERVED"];
+ pay [label="Debit wallet\nfee + deposit"];
+ save [label="Save RentalOrder PENDING\nPayment SUCCESS"];
+ staff [shape=ellipse, fillcolor="#fef3c7", label="Staff opens pending rental"];
+ approve [label="Validate every copy is RESERVED"];
+ rent [label="Set copies RENTED\nSet rentalDate and dueDate"];
+ done [shape=ellipse, fillcolor="#dcfce7", label="RentalOrder RENTING"];
+ start -> calc -> reserve -> pay -> save -> staff -> approve -> rent -> done;
+}

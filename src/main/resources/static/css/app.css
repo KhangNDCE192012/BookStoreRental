@@ -1,0 +1,17 @@
+:root { --brand:#5b3a29; --brand-soft:#f4ece7; --accent:#c58b52; }
+body { background:#faf9f7; color:#2d2926; }
+.navbar-brand { font-weight:700; letter-spacing:.3px; }
+.bg-brand { background:var(--brand)!important; }
+.btn-brand { background:var(--brand); color:#fff; border-color:var(--brand); }
+.btn-brand:hover { background:#472d20; color:#fff; }
+.card-book { height:100%; border:0; box-shadow:0 4px 18px rgba(0,0,0,.07); transition:.2s; }
+.card-book:hover { transform:translateY(-3px); }
+.book-cover { aspect-ratio:3/4; object-fit:cover; background:#eee; }
+.price { color:#b15a24; font-weight:700; }
+.sidebar { min-height:calc(100vh - 56px); background:#fff; border-right:1px solid #e6e0db; }
+.sidebar a { display:block; color:#4b4039; padding:.65rem .9rem; border-radius:.4rem; text-decoration:none; }
+.sidebar a:hover { background:var(--brand-soft); }
+.table td,.table th { vertical-align:middle; }
+.hero { background:linear-gradient(120deg,#5b3a29,#9b6843); color:#fff; border-radius:1rem; }
+.badge-soft { background:var(--brand-soft); color:var(--brand); }
+.form-section { background:#fff; border:1px solid #e7e1dc; border-radius:.75rem; padding:1.25rem; }
