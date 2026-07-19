@@ -21,7 +21,7 @@ import vn.edu.fpt.bookstore.service.CurrentUserService;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin") //
 public class AdminBookController {
     private final BookService bookService;
     private final CurrentUserService currentUserService;
