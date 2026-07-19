@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.edu.fpt.bookstore.dto.RegisterForm;
 import vn.edu.fpt.bookstore.dto.ResetPasswordForm;
 import vn.edu.fpt.bookstore.service.AuthService;
+import org.springframework.security.core.Authentication;
 
 @Controller
 @RequestMapping("/auth")
@@ -31,10 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(
-            @Valid @ModelAttribute("registerForm") RegisterForm registerForm,
-            BindingResult bindingResult,
-            RedirectAttributes redirectAttributes) {
+    public String register(@Valid @ModelAttribute("registerForm") RegisterForm registerForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
             return "auth/register";
@@ -43,19 +41,13 @@ public class AuthController {
         try {
             authService.register(registerForm);
 
-            redirectAttributes.addFlashAttribute(
-                    "success",
-                    "Đăng ký thành công. Bạn có thể đăng nhập ngay."
-            );
+            redirectAttributes.addFlashAttribute("success", "Đăng ký thành công. Bạn có thể đăng nhập ngay.");
 
             return "redirect:/auth/login";
 
         } catch (IllegalArgumentException | IllegalStateException e) {
 
-            bindingResult.reject(
-                    "register.failed",
-                    e.getMessage()
-            );
+            bindingResult.reject("register.failed", e.getMessage());
 
             return "auth/register";
 
@@ -63,10 +55,7 @@ public class AuthController {
 
             e.printStackTrace();
 
-            bindingResult.reject(
-                    "register.failed",
-                    "Không thể tạo tài khoản. Vui lòng kiểm tra database hoặc console."
-            );
+            bindingResult.reject("register.failed", "Không thể tạo tài khoản. Vui lòng kiểm tra database hoặc console.");
 
             return "auth/register";
         }
@@ -102,9 +91,7 @@ public class AuthController {
     }
 
     @PostMapping("/reset-password")
-    public String reset(@Valid @ModelAttribute ResetPasswordForm resetPasswordForm,
-                        BindingResult bindingResult,
-                        RedirectAttributes redirectAttributes) {
+    public String reset(@Valid @ModelAttribute ResetPasswordForm resetPasswordForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) return "auth/reset-password";
         try {
             authService.resetPassword(resetPasswordForm);
@@ -117,7 +104,23 @@ public class AuthController {
     }
 
     @GetMapping("/access-denied")
-    public String accessDenied() {
-        return "auth/access-denied";
+    public String accessDenied(Authentication authentication) {
+
+        if (authentication == null) {
+            return "redirect:/auth/login";
+        }
+        boolean isAdmin = authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        boolean isStaff = authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_STAFF"));
+        boolean isCustomer = authentication.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ROLE_CUSTOMER"));
+        if (isAdmin) {
+            return "redirect:/admin";
+        }
+        if (isStaff) {
+            return "redirect:/staff";
+        }
+        if (isCustomer) {
+            return "redirect:/home";
+        }
+        return "redirect:/auth/login";
     }
 }
