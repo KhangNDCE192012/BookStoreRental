@@ -1,1 +1,13 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/common :: head('Không có quyền')}"></head><body><nav th:replace="~{fragments/common :: navbar}"></nav><main class="container py-5"><div class="alert alert-danger"><h1>403 - Không có quyền truy cập</h1><p>Tài khoản của bạn không được phép truy cập chức năng này.</p><a class="btn btn-dark" th:href="@{/}">Về trang chủ</a></div></main><footer th:replace="~{fragments/common :: footer}"></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Không có quyền')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<main class="container py-5">
+    <div class="alert alert-danger"><h1>403 - Không có quyền truy cập</h1>
+        <p>Tài khoản của bạn không được phép truy cập chức năng này.</p><a class="btn btn-dark" th:href="@{/}">Về trang
+            chủ</a></div>
+</main>
+<footer th:replace="~{fragments/common :: footer}"></footer>
+</body>
+</html>

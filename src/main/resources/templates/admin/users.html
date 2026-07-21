@@ -1,1 +1,92 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/common :: head('Người dùng')}"></head><body><nav th:replace="~{fragments/common :: navbar}"></nav><div th:replace="~{fragments/common :: messages}"></div><div class="container-fluid"><div class="row"><aside class="col-md-2 p-0"><div th:replace="~{fragments/admin-sidebar :: sidebar}"></div></aside><main class="col-md-10 p-4"><h1>Người dùng & nhân viên</h1><h3>Khách hàng</h3><table class="table"><thead><tr><th>Username</th><th>Họ tên</th><th>Email</th><th>Điện thoại</th><th>Trạng thái</th><th></th></tr></thead><tbody><tr th:each="u:${customers}"><td th:text="${u.username}"></td><td th:text="${u.fullName}"></td><td th:text="${u.email}"></td><td th:text="${u.phone}"></td><td th:text="${u.status}"></td><td><form th:action="@{/admin/users/{id}/toggle-lock(id=${u.id})}" method="post"><button class="btn btn-sm btn-outline-warning" th:text="${u.status.name()=='ACTIVE'?'Khóa':'Mở khóa'}"></button></form></td></tr></tbody></table><h3 class="mt-4">Nhân viên</h3><table class="table"><thead><tr><th>Username</th><th>Họ tên</th><th>Email</th><th>Trạng thái</th><th></th></tr></thead><tbody><tr th:each="u:${staffs}"><td th:text="${u.username}"></td><td th:text="${u.fullName}"></td><td th:text="${u.email}"></td><td th:text="${u.status}"></td><td><form th:action="@{/admin/users/{id}/toggle-lock(id=${u.id})}" method="post"><button class="btn btn-sm btn-outline-warning" th:text="${u.status.name()=='ACTIVE'?'Khóa':'Mở khóa'}"></button></form></td></tr></tbody></table><h3 class="mt-4">Tạo nhân viên</h3><form class="form-section" th:action="@{/admin/users/staff}" th:object="${staffCreateForm}" method="post"><div class="row g-2"><div class="col-md-3"><input class="form-control" th:field="*{username}" placeholder="Username"></div><div class="col-md-3"><input class="form-control" th:field="*{fullName}" placeholder="Họ tên"></div><div class="col-md-3"><input class="form-control" th:field="*{email}" placeholder="Email"></div><div class="col-md-3"><input class="form-control" th:field="*{phone}" placeholder="Điện thoại"></div><div class="col-md-3"><input type="password" class="form-control" th:field="*{password}" placeholder="Mật khẩu"></div><div class="col-md-3"><input class="form-control" th:field="*{employeeCode}" placeholder="Mã nhân viên"></div><div class="col-md-3"><input class="form-control" th:field="*{position}" placeholder="Chức vụ"></div><div class="col-md-3"><button class="btn btn-brand w-100">Tạo nhân viên</button></div></div></form></main></div></div><footer th:replace="~{fragments/common :: footer}"></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Người dùng')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: messages}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <aside class="col-md-2 p-0">
+            <div th:replace="~{fragments/admin-sidebar :: sidebar}"></div>
+        </aside>
+        <main class="col-md-10 p-4"><h1>Người dùng & nhân viên</h1>
+            <h3>Khách hàng</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Điện thoại</th>
+                    <th>Trạng thái</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u:${customers}">
+                    <td th:text="${u.username}"></td>
+                    <td th:text="${u.fullName}"></td>
+                    <td th:text="${u.email}"></td>
+                    <td th:text="${u.phone}"></td>
+                    <td th:text="${u.status}"></td>
+                    <td>
+                        <form th:action="@{/admin/users/{id}/toggle-lock(id=${u.id})}" method="post">
+                            <button class="btn btn-sm btn-outline-warning"
+                                    th:text="${u.status.name()=='ACTIVE'?'Khóa':'Mở khóa'}"></button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h3 class="mt-4">Nhân viên</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Họ tên</th>
+                    <th>Email</th>
+                    <th>Trạng thái</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="u:${staffs}">
+                    <td th:text="${u.username}"></td>
+                    <td th:text="${u.fullName}"></td>
+                    <td th:text="${u.email}"></td>
+                    <td th:text="${u.status}"></td>
+                    <td>
+                        <form th:action="@{/admin/users/{id}/toggle-lock(id=${u.id})}" method="post">
+                            <button class="btn btn-sm btn-outline-warning"
+                                    th:text="${u.status.name()=='ACTIVE'?'Khóa':'Mở khóa'}"></button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <h3 class="mt-4">Tạo nhân viên</h3>
+            <form class="form-section" th:action="@{/admin/users/staff}" th:object="${staffCreateForm}" method="post">
+                <div class="row g-2">
+                    <div class="col-md-3"><input class="form-control" th:field="*{username}" placeholder="Username">
+                    </div>
+                    <div class="col-md-3"><input class="form-control" th:field="*{fullName}" placeholder="Họ tên"></div>
+                    <div class="col-md-3"><input class="form-control" th:field="*{email}" placeholder="Email"></div>
+                    <div class="col-md-3"><input class="form-control" th:field="*{phone}" placeholder="Điện thoại">
+                    </div>
+                    <div class="col-md-3"><input type="password" class="form-control" th:field="*{password}"
+                                                 placeholder="Mật khẩu"></div>
+                    <div class="col-md-3"><input class="form-control" th:field="*{employeeCode}"
+                                                 placeholder="Mã nhân viên"></div>
+                    <div class="col-md-3"><input class="form-control" th:field="*{position}" placeholder="Chức vụ">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-brand w-100">Tạo nhân viên</button>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+<footer th:replace="~{fragments/common :: footer}"></footer>
+</body>
+</html>

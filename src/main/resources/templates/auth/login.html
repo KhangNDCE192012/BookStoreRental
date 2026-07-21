@@ -1,2 +1,27 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/common :: head('Đăng nhập')}"></head><body><nav th:replace="~{fragments/common :: navbar}"></nav><div th:replace="~{fragments/common :: messages}"></div>
-<main class="container py-5"><div class="row justify-content-center"><div class="col-md-5"><div class="form-section"><h1 class="h3">Đăng nhập</h1><div th:if="${param.error}" class="alert alert-danger">Sai thông tin đăng nhập hoặc tài khoản bị khóa.</div><div th:if="${param.logout}" class="alert alert-success">Bạn đã đăng xuất.</div><form th:action="@{/auth/login}" method="post"><label class="form-label">Tên đăng nhập</label><input class="form-control mb-3" name="username" required autofocus><label class="form-label">Mật khẩu</label><input type="password" class="form-control mb-3" name="password" required><button class="btn btn-brand w-100">Đăng nhập</button></form><div class="d-flex justify-content-between mt-3"><a th:href="@{/auth/register}">Tạo tài khoản</a><a th:href="@{/auth/forgot-password}">Quên mật khẩu?</a></div></div></div></div></main><footer th:replace="~{fragments/common :: footer}"></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Đăng nhập')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: messages}"></div>
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="form-section"><h1 class="h3">Đăng nhập</h1>
+                <div th:if="${param.error}" class="alert alert-danger">Sai thông tin đăng nhập hoặc tài khoản bị khóa.
+                </div>
+                <div th:if="${param.logout}" class="alert alert-success">Bạn đã đăng xuất.</div>
+                <form th:action="@{/auth/login}" method="post"><label class="form-label">Tên đăng nhập</label><input
+                        class="form-control mb-3" name="username" required autofocus><label class="form-label">Mật
+                    khẩu</label><input type="password" class="form-control mb-3" name="password" required>
+                    <button class="btn btn-brand w-100">Đăng nhập</button>
+                </form>
+                <div class="d-flex justify-content-between mt-3"><a th:href="@{/auth/register}">Tạo tài khoản</a><a
+                        th:href="@{/auth/forgot-password}">Quên mật khẩu?</a></div>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/common :: footer}"></footer>
+</body>
+</html>

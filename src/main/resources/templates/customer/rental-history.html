@@ -1,1 +1,52 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/common :: head('Lịch sử thuê')}"></head><body><nav th:replace="~{fragments/common :: navbar}"></nav><div th:replace="~{fragments/common :: messages}"></div><main class="container py-4"><h1>Lịch sử thuê sách</h1><div class="table-responsive"><table class="table table-hover"><thead><tr><th>Mã đơn</th><th>Ngày thuê</th><th>Hạn trả</th><th>Tổng thanh toán</th><th>Trạng thái</th></tr></thead><tbody><tr th:each="o:${orders}"><td><a th:href="@{/customer/rentals/{id}(id=${o.id})}" th:text="${o.rentalCode}"></a></td><td th:text="${o.rentalDate==null?'Chờ xác nhận':#temporals.format(o.rentalDate,'dd/MM/yyyy HH:mm')}"></td><td th:text="${o.dueDate==null?'-':#temporals.format(o.dueDate,'dd/MM/yyyy HH:mm')}"></td><td th:text="${#numbers.formatDecimal(o.totalAmount,0,'COMMA',0,'POINT')}+' đ'"></td><td><span class="badge text-bg-secondary" th:text="${o.rentalStatus}"></span></td></tr></tbody></table></div><h3 class="mt-5">Yêu cầu gia hạn</h3><table class="table"><thead><tr><th>Sách</th><th>Thêm ngày</th><th>Phí</th><th>Trạng thái</th></tr></thead><tbody><tr th:each="r:${extensionRequests}"><td th:text="${r.rentalOrderDetail.book.title}"></td><td th:text="${r.extraDays}"></td><td th:text="${#numbers.formatDecimal(r.extraFee,0,'COMMA',0,'POINT')}+' đ'"></td><td th:text="${r.status}"></td></tr></tbody></table></main><footer th:replace="~{fragments/common :: footer}"></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Lịch sử thuê')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: messages}"></div>
+<main class="container py-4"><h1>Lịch sử thuê sách</h1>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Mã đơn</th>
+                <th>Ngày thuê</th>
+                <th>Hạn trả</th>
+                <th>Tổng thanh toán</th>
+                <th>Trạng thái</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="o:${orders}">
+                <td><a th:href="@{/customer/rentals/{id}(id=${o.id})}" th:text="${o.rentalCode}"></a></td>
+                <td th:text="${o.rentalDate==null?'Chờ xác nhận':#temporals.format(o.rentalDate,'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${o.dueDate==null?'-':#temporals.format(o.dueDate,'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#numbers.formatDecimal(o.totalAmount,0,'COMMA',0,'POINT')}+' đ'"></td>
+                <td><span class="badge text-bg-secondary" th:text="${o.rentalStatus}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h3 class="mt-5">Yêu cầu gia hạn</h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Sách</th>
+            <th>Thêm ngày</th>
+            <th>Phí</th>
+            <th>Trạng thái</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="r:${extensionRequests}">
+            <td th:text="${r.rentalOrderDetail.book.title}"></td>
+            <td th:text="${r.extraDays}"></td>
+            <td th:text="${#numbers.formatDecimal(r.extraFee,0,'COMMA',0,'POINT')}+' đ'"></td>
+            <td th:text="${r.status}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+<footer th:replace="~{fragments/common :: footer}"></footer>
+</body>
+</html>

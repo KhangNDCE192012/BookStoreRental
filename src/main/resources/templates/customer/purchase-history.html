@@ -1,1 +1,33 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/common :: head('Lịch sử mua')}"></head><body><nav th:replace="~{fragments/common :: navbar}"></nav><div th:replace="~{fragments/common :: messages}"></div><main class="container py-4"><h1>Lịch sử mua sách</h1><div class="table-responsive"><table class="table table-hover"><thead><tr><th>Mã đơn</th><th>Ngày tạo</th><th>Tổng tiền</th><th>Thanh toán</th><th>Trạng thái</th></tr></thead><tbody><tr th:each="o:${orders}"><td><a th:href="@{/customer/purchases/{id}(id=${o.id})}" th:text="${o.orderCode}"></a></td><td th:text="${#temporals.format(o.createdAt,'dd/MM/yyyy HH:mm')}"></td><td th:text="${#numbers.formatDecimal(o.totalAmount,0,'COMMA',0,'POINT')}+' đ'"></td><td th:text="${o.paymentStatus}"></td><td><span class="badge text-bg-secondary" th:text="${o.orderStatus}"></span></td></tr></tbody></table></div></main><footer th:replace="~{fragments/common :: footer}"></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Lịch sử mua')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: messages}"></div>
+<main class="container py-4"><h1>Lịch sử mua sách</h1>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Mã đơn</th>
+                <th>Ngày tạo</th>
+                <th>Tổng tiền</th>
+                <th>Thanh toán</th>
+                <th>Trạng thái</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="o:${orders}">
+                <td><a th:href="@{/customer/purchases/{id}(id=${o.id})}" th:text="${o.orderCode}"></a></td>
+                <td th:text="${#temporals.format(o.createdAt,'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${#numbers.formatDecimal(o.totalAmount,0,'COMMA',0,'POINT')}+' đ'"></td>
+                <td th:text="${o.paymentStatus}"></td>
+                <td><span class="badge text-bg-secondary" th:text="${o.orderStatus}"></span></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<footer th:replace="~{fragments/common :: footer}"></footer>
+</body>
+</html>

@@ -1,6 +1,67 @@
-<!DOCTYPE html><html lang="vi" xmlns:th="http://www.thymeleaf.org"><head th:replace="~{fragments/common :: head('Hồ sơ')}"></head><body><nav th:replace="~{fragments/common :: navbar}"></nav><div th:replace="~{fragments/common :: messages}"></div>
-<main class="container py-4"><h1>Hồ sơ cá nhân</h1><div class="row g-4"><div class="col-lg-6"><div class="form-section"><h4>Thông tin</h4><form th:action="@{/customer/profile/update}" th:object="${profileForm}" method="post"><label class="form-label">Tên đăng nhập</label><input class="form-control mb-2" th:value="${user.username}" disabled><label class="form-label">Họ tên</label><input class="form-control mb-2" th:field="*{fullName}"><label class="form-label">Email</label><input class="form-control mb-2" th:field="*{email}"><label class="form-label">Số điện thoại</label><input class="form-control mb-2" th:field="*{phone}"><button class="btn btn-brand">Lưu hồ sơ</button></form></div></div>
-<div class="col-lg-6"><div class="form-section"><h4>Đổi mật khẩu</h4><form th:action="@{/customer/profile/change-password}" th:object="${changePasswordForm}" method="post"><input type="password" class="form-control mb-2" th:field="*{currentPassword}" placeholder="Mật khẩu hiện tại"><input type="password" class="form-control mb-2" th:field="*{newPassword}" placeholder="Mật khẩu mới"><input type="password" class="form-control mb-2" th:field="*{confirmPassword}" placeholder="Nhập lại"><button class="btn btn-outline-dark">Đổi mật khẩu</button></form></div></div></div>
-<div class="row g-4 mt-1"><div class="col-lg-7"><div class="form-section"><h4>Địa chỉ giao nhận</h4><div class="border rounded p-3 mb-2" th:each="a:${addresses}"><strong th:text="${a.receiverName}"></strong> - <span th:text="${a.receiverPhone}"></span><span class="badge bg-success ms-2" th:if="${a.defaultAddress}">Mặc định</span><p class="mb-2" th:text="${a.fullAddress}"></p><form th:action="@{/customer/profile/addresses/{id}/delete(id=${a.id})}" method="post"><button class="btn btn-sm btn-outline-danger" data-confirm="Xóa địa chỉ này?">Xóa</button></form></div></div></div>
-<div class="col-lg-5"><div class="form-section"><h4>Thêm địa chỉ</h4><form th:action="@{/customer/profile/addresses}" th:object="${addressForm}" method="post"><input class="form-control mb-2" th:field="*{receiverName}" placeholder="Tên người nhận"><input class="form-control mb-2" th:field="*{receiverPhone}" placeholder="Điện thoại"><input class="form-control mb-2" th:field="*{addressLine}" placeholder="Số nhà, đường"><input class="form-control mb-2" th:field="*{ward}" placeholder="Phường/xã"><input class="form-control mb-2" th:field="*{district}" placeholder="Quận/huyện"><input class="form-control mb-2" th:field="*{province}" placeholder="Tỉnh/thành"><label><input type="checkbox" th:field="*{defaultAddress}"> Đặt làm mặc định</label><button class="btn btn-brand d-block mt-2">Thêm địa chỉ</button></form></div></div></div>
-</main><footer th:replace="~{fragments/common :: footer}"></footer></body></html>
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/common :: head('Hồ sơ')}"></head>
+<body>
+<nav th:replace="~{fragments/common :: navbar}"></nav>
+<div th:replace="~{fragments/common :: messages}"></div>
+<main class="container py-4"><h1>Hồ sơ cá nhân</h1>
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="form-section"><h4>Thông tin</h4>
+                <form th:action="@{/customer/profile/update}" th:object="${profileForm}" method="post"><label
+                        class="form-label">Tên đăng nhập</label><input class="form-control mb-2"
+                                                                       th:value="${user.username}" disabled><label
+                        class="form-label">Họ tên</label><input class="form-control mb-2" th:field="*{fullName}"><label
+                        class="form-label">Email</label><input class="form-control mb-2" th:field="*{email}"><label
+                        class="form-label">Số điện thoại</label><input class="form-control mb-2" th:field="*{phone}">
+                    <button class="btn btn-brand">Lưu hồ sơ</button>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-section"><h4>Đổi mật khẩu</h4>
+                <form th:action="@{/customer/profile/change-password}" th:object="${changePasswordForm}" method="post">
+                    <input type="password" class="form-control mb-2" th:field="*{currentPassword}"
+                           placeholder="Mật khẩu hiện tại"><input type="password" class="form-control mb-2"
+                                                                  th:field="*{newPassword}"
+                                                                  placeholder="Mật khẩu mới"><input type="password"
+                                                                                                    class="form-control mb-2"
+                                                                                                    th:field="*{confirmPassword}"
+                                                                                                    placeholder="Nhập lại">
+                    <button class="btn btn-outline-dark">Đổi mật khẩu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4 mt-1">
+        <div class="col-lg-7">
+            <div class="form-section"><h4>Địa chỉ giao nhận</h4>
+                <div class="border rounded p-3 mb-2" th:each="a:${addresses}"><strong
+                        th:text="${a.receiverName}"></strong> - <span th:text="${a.receiverPhone}"></span><span
+                        class="badge bg-success ms-2" th:if="${a.defaultAddress}">Mặc định</span>
+                    <p class="mb-2" th:text="${a.fullAddress}"></p>
+                    <form th:action="@{/customer/profile/addresses/{id}/delete(id=${a.id})}" method="post">
+                        <button class="btn btn-sm btn-outline-danger" data-confirm="Xóa địa chỉ này?">Xóa</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="form-section"><h4>Thêm địa chỉ</h4>
+                <form th:action="@{/customer/profile/addresses}" th:object="${addressForm}" method="post"><input
+                        class="form-control mb-2" th:field="*{receiverName}" placeholder="Tên người nhận"><input
+                        class="form-control mb-2" th:field="*{receiverPhone}" placeholder="Điện thoại"><input
+                        class="form-control mb-2" th:field="*{addressLine}" placeholder="Số nhà, đường"><input
+                        class="form-control mb-2" th:field="*{ward}" placeholder="Phường/xã"><input
+                        class="form-control mb-2" th:field="*{district}" placeholder="Quận/huyện"><input
+                        class="form-control mb-2" th:field="*{province}" placeholder="Tỉnh/thành"><label><input
+                        type="checkbox" th:field="*{defaultAddress}"> Đặt làm mặc định</label>
+                    <button class="btn btn-brand d-block mt-2">Thêm địa chỉ</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer th:replace="~{fragments/common :: footer}"></footer>
+</body>
+</html>
